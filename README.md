@@ -1,9 +1,9 @@
 
 LIVE DEMO-[https://github.com/piyush332020/Hostel_Management_System/invitations](http://hostelmanagementsysteam.gt.tc/admin/index.php)](http://hostelmanagementsysteam.gt.tc/admin/index.php)
 
-**** userid-admin
+**** userid-admin ****
 
-**** password-admin123
+**** password-admin123 ****
 
 
 
