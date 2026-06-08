@@ -1,38 +1,20 @@
 <?php
 session_start();
 include('includes/config.php');
-if(isset($_POST['login']))
-{
-$email=$_POST['email'];
-$contact=$_POST['contact'];
-$stmt=$mysqli->prepare("SELECT email,contactNo,password FROM userregistration WHERE (email=? && contactNo=?) ");
-				$stmt->bind_param('ss',$email,$contact);
-				$stmt->execute();
-				$stmt -> bind_result($username,$email,$password);
-				$rs=$stmt->fetch();
-				if($rs)
-				{
-				$pwd=$password;				
-				}
-
-				else
-				{
-					echo "<script>alert('Invalid Email/Contact no or password');</script>";
-				}
-			}
-				?>
-
+include('includes/checklogin.php');
+check_login();
+?>
 <!doctype html>
 <html lang="en" class="no-js">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
-
-	<title>User Forgot Password</title>
-
+	<meta name="theme-color" content="#3e454c">
+	<title>Access Log</title>
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
@@ -41,40 +23,87 @@ $stmt=$mysqli->prepare("SELECT email,contactNo,password FROM userregistration WH
 	<link rel="stylesheet" href="css/fileinput.min.css">
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<link rel="stylesheet" href="css/style.css">
-</head
-<body>
-	
-	<div class="login-page bk-img" style="background-image: url(img/login-bg.jpg);">
-		<div class="form-content">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6 col-md-offset-3">
-						<h1 class="text-center text-bold text-light mt-4x">Forgot Password</h1>
-						<div class="well row pt-2x pb-3x bk-light">
-							<div class="col-md-8 col-md-offset-2">
-							<?php if(isset($_POST['login']))
-{ ?>
-					<p>Yuor Password is <?php echo $pwd;?><br> Change the Password After login</p>
-					<?php }  ?>
-								<form action="" class="mt" method="post">
-									<label for="" class="text-uppercase text-sm">Your Email</label>
-									<input type="email" placeholder="Email" name="email" class="form-control mb">
-									<label for="" class="text-uppercase text-sm">Your Contact no</label>
-									<input type="text" placeholder="Contact no" name="contact" class="form-control mb">
-									
+</head>
 
-									<input type="submit" name="login" class="btn btn-primary btn-block" value="login" >
-								</form>
+<body>
+	<?php include('includes/header.php');?>
+
+	<div class="ts-main-content">
+			<?php include('includes/sidebar.php');?>
+		<div class="content-wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="page-title" style="margin-top: 2%">Access Log</h2>
+						<div class="panel panel-default">
+							<div class="panel-heading">All Courses Details</div>
+							<div class="panel-body">
+								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th>Sno.</th>
+											<th>User Id</th>
+											<th>User Email</th>
+											<th>IP</th>
+											<th>City</th>
+											<th>Country</th>
+											<th>Login Time</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>Sno.</th>
+											<th>User Id</th>
+											<th>User Email</th>
+											<th>IP</th>
+											<th>City</th>
+											<th>Country</th>
+											<th>Login Time</th>
+										</tr>
+									</tfoot>
+									<tbody>
+<?php	
+$aid=$_SESSION['id'];
+$ret="select * from userlog where userId=?";
+$stmt= $mysqli->prepare($ret) ;
+$stmt->bind_param('i',$aid);
+$stmt->execute() ;
+$res=$stmt->get_result();
+$cnt=1;
+while($row=$res->fetch_object())
+	  {
+	  	?>
+<tr><td><?php echo $cnt;;?></td>
+<td><?php echo $row->userId;?></td>
+<td><?php echo $row->userEmail;?></td>
+<td><?php echo $row->userIp;?></td>
+<td><?php echo $row->city;?></td>
+<td><?php echo $row->country;?></td>
+<td><?php echo $row->loginTime;?></td>
+										</tr>
+									<?php
+$cnt=$cnt+1;
+									 } ?>
+											
+										
+									</tbody>
+								</table>
+
+								
 							</div>
 						</div>
-						<div class="text-center text-light">
-							<a href="index.php" class="text-light">Sign in?</a>
-						</div>
+
+					
 					</div>
 				</div>
+
+			
+
 			</div>
 		</div>
 	</div>
+
+	<!-- Loading Scripts -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap-select.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
@@ -84,5 +113,7 @@ $stmt=$mysqli->prepare("SELECT email,contactNo,password FROM userregistration WH
 	<script src="js/fileinput.js"></script>
 	<script src="js/chartData.js"></script>
 	<script src="js/main.js"></script>
+
 </body>
+
 </html>
