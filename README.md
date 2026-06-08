@@ -1,6 +1,7 @@
 
 LIVE DEMO-[https://github.com/piyush332020/Hostel_Management_System/invitations](http://hostelmanagementsysteam.gt.tc/admin/index.php)](http://hostelmanagementsysteam.gt.tc/admin/index.php)
 
+uses INFINTYFREE FOR DEVLOPMENT
 
 The Hostel Management System is a software solution that helps hostel administrators manage student accommodations efficiently. It streamlines various hostel activities such as student registration, room allocation, fee collection, attendance tracking, and complaint management.
 
